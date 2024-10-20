@@ -1,0 +1,21 @@
+import pytesseract
+from PIL import Image
+import re
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+image_path = r"C:\Users\karnam harika\Desktop\Train models10\Perfume2.jpg"
+image = Image.open(image_path)
+extracted_text = pytesseract.image_to_string(image)
+print("Extracted Text:")
+print(extracted_text)
+brand_name_pattern = r'(?i)(brand|name):?\s*([A-Za-z0-9\s]+)'  
+pack_size_pattern = r'(?i)(size|pack):?\s*([0-9]+[ml|g|L|kg]+)'
+brand_name = re.search(brand_name_pattern, extracted_text)
+if brand_name:
+    print(f"Brand Name: {brand_name.group(2)}")
+else:
+    print("Brand Name: Not Found")
+pack_size = re.search(pack_size_pattern, extracted_text)
+if pack_size:
+    print(f"Pack Size: {pack_size.group(2)}")
+else:
+    print("Pack Size: Not Found")
